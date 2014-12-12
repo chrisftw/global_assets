@@ -1,5 +1,7 @@
 require 'yaml'
 require 'fileutils'
+require 'erb'
+require 'ostruct'
 
 class GlobalAssets
   class << self
@@ -14,21 +16,29 @@ class GlobalAssets
     end
 
     def snippet(name, locals = {})
-      file_at = File.join(settings[:source_dir], "snippets", name.to_s + ".html")
-      return File.read(file_at) if(File.exists?(file_at))
-      return "Could not find Snippet: [#{name.to_s}]"
+      file_at = File.join(settings[:source_dir], "snippets", name.to_s + ".erb")
+      return erb(File.read(file_at), locals) if(File.exists?(file_at))
+      raise Exception, "Could not find Snippet: [#{name.to_s}]"
+    end
+    
+    def erb(template, locals)
+      ERB.new(template).result(OpenStruct.new(locals).instance_eval { binding })
     end
 
     def move_global_files
       # delete all 3 target directories
+      puts "Wiping old global directories..."
       [settings[:target_js], settings[:target_js], settings[:target_js]].each do |dir|
         FileUtils.rm_rf(dir)
         FileUtils.mkdir_p(dir)
       end
       # copy over all 3 source directories to the target dirs
-      FileUtils.cp_r(File.join(settings[:source_dir], "js"), settings[:target_js])
-      FileUtils.cp_r(File.join(settings[:source_dir], "css"), settings[:target_css])
-      FileUtils.cp_r(File.join(settings[:source_dir], "img"), settings[:target_img])
+      puts "Moving global JS..."
+      FileUtils.cp_r(File.join(settings[:source_dir], "js/."), settings[:target_js])
+      puts "Moving global CSS..."
+      FileUtils.cp_r(File.join(settings[:source_dir], "css/."), settings[:target_css])
+      puts "Moving global Images..."
+      FileUtils.cp_r(File.join(settings[:source_dir], "img/."), settings[:target_img])
     end
 
     def set(key, val)

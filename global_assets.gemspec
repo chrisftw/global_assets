@@ -1,5 +1,4 @@
-
-Gem:Specification.new do |s|
+Gem::Specification.new do |s|
   s.name = "global_assets"
   s.version = "0.0.0"
   s.summary = "Global asset manager for Ruby projects that share assets."
@@ -7,9 +6,8 @@ Gem:Specification.new do |s|
   s.authors = ["Chris Reister"]
   s.licenses = ["MIT"]
   s.email = ["chris@chrisreister.com"]
-  s.homepage = "git repo address"
-  s.files = ["lib/global_assets.rb"]
+  s.homepage = "https://github.com/chrisftw/global_assets"
+  s.files = ["lib/global_assets.rb", "Rakefile"]
 
-
-  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'minitest'
 end
