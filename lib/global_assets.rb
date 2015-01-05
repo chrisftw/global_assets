@@ -28,17 +28,25 @@ class GlobalAssets
     def move_global_files
       # delete all 3 target directories
       puts "Wiping old global directories..."
-      [settings[:target_js], settings[:target_js], settings[:target_js]].each do |dir|
-        FileUtils.rm_rf(dir)
-        FileUtils.mkdir_p(dir)
+      [settings[:target_js], settings[:target_css], settings[:target_img]].each do |dir|
+        if dir
+          FileUtils.rm_rf(dir)
+          FileUtils.mkdir_p(dir)
+        end
       end
       # copy over all 3 source directories to the target dirs
-      puts "Moving global JS..."
-      FileUtils.cp_r(File.join(settings[:source_dir], "js/."), settings[:target_js])
-      puts "Moving global CSS..."
-      FileUtils.cp_r(File.join(settings[:source_dir], "css/."), settings[:target_css])
-      puts "Moving global Images..."
-      FileUtils.cp_r(File.join(settings[:source_dir], "img/."), settings[:target_img])
+      if settings[:target_js]
+        puts "Moving global JS..."
+        FileUtils.cp_r(File.join(settings[:source_dir], "js/."), settings[:target_js])
+      end
+      if settings[:target_css]
+        puts "Moving global CSS..."
+        FileUtils.cp_r(File.join(settings[:source_dir], "css/."), settings[:target_css])
+      end
+      if settings[:target_img]
+        puts "Moving global Images..."
+        FileUtils.cp_r(File.join(settings[:source_dir], "img/."), settings[:target_img])
+      end
     end
 
     def set(key, val)
@@ -59,9 +67,3 @@ class GlobalAssets
     end
   end
 end
-
-__END__
-
-require './lib/global_assets'
-class EMEGlobalAssets; include GlobalAssets; end
-EMEGlobalAssets.snippet(:test)
