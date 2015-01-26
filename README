@@ -1,3 +1,11 @@
 # GlobalAssets
 
 GlobalAssets is a Ruby lib for sharing global images, css, including(sass and less), js, coffeescript, and snippets across many other Ruby projects.
+
+
+# Changelog
+
+## 0.0.2
+
+* html_safe the snippet returns for Rails projects.
+* config file path expanded on open.

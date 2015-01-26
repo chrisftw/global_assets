@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = "global_assets"
-  s.version     = "0.0.1"
-  s.date        = '2015-01-05'
+  s.version     = "0.0.2"
+  s.date        = '2015-01-26'
   s.summary     = "Global asset manager for Ruby projects that share assets."
   s.description = "Share HTML snippets, JS, CSS/SASS, and images between all your projects via personal gem/git repo."
   s.authors     = ["Chris Reister"]
