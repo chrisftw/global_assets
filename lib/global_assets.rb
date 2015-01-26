@@ -6,7 +6,7 @@ require 'ostruct'
 class GlobalAssets
   class << self
     def inherited(base)
-      configs = YAML.load_file("config/#{snake_case(base)}.yml")
+      configs = YAML.load_file(File.expand_path("config/#{snake_case(base)}.yml"))
       if configs[snake_case(base)] && configs[snake_case(base)]["target_dirs"]
         base.set(:target_js, configs[snake_case(base)]["target_dirs"]["js"])
         base.set(:target_css, configs[snake_case(base)]["target_dirs"]["css"])
