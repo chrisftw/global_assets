@@ -17,7 +17,11 @@ class GlobalAssets
 
     def snippet(name, locals = {})
       file_at = File.join(settings[:source_dir], "snippets", name.to_s + ".erb")
-      return erb(File.read(file_at), locals) if(File.exists?(file_at))
+      if(File.exists?(file_at))
+        ret_val = erb(File.read(file_at), locals)
+        return ret_val.html_safe if ret_val.respond_to?(:html_safe)
+        return ret_val
+      end
       raise Exception, "Could not find Snippet: [#{name.to_s}]"
     end
     
