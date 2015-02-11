@@ -46,6 +46,16 @@ class GlobalAssets
       if settings[:target_css]
         puts "Moving global CSS..."
         FileUtils.cp_r(File.join(settings[:source_dir], "css/."), settings[:target_css])
+        
+        # remove /assets/ from css files if Rails 4 or greater
+        if Rails && Rails.version[0] >= "4"
+          css_files = Dir["#{settings[:target_css]}/*"]
+          css_files.each do |css_filename|
+            dirty_css = File.read(css_filename)
+            cleaned_css = dirty_css.gsub(/\/?assets\//, "")
+            File.open(css_filename, "w") {|file| file.puts cleaned_css }
+          end
+        end
       end
       if settings[:target_img]
         puts "Moving global Images..."
